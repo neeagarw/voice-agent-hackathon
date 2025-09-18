@@ -47,9 +47,9 @@ This agent is compatible with the [LiveKit Agents Playground](https://agents-pla
 
 To run the agent for the playground, use the `dev` subcomand:
 
-    ```shell
-    uv run agent.py dev
-    ```
+```shell
+uv run agent.py dev
+```
 
 ## Custom frontend & telephony
 
