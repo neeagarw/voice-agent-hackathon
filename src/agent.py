@@ -66,7 +66,6 @@ async def entrypoint(ctx: JobContext):
         # For a list of available models, see https://github.com/livekit/agents/blob/main/livekit-agents/livekit/agents/inference/llm.py
         # Or, for a wider range of models, see plugins at https://docs.livekit.io/agents/integrations/llm/
         llm="azure/gpt-4o-mini",
-        
         # This starter template uses AssemblyAI via LiveKit Cloud.
         # To send extra parameters, use the following session setup instead of the version above:
         # 1. add `from livekit.agents import inference` to the top of this file
@@ -82,7 +81,6 @@ async def entrypoint(ctx: JobContext):
         #     stt=assemblyai.STT()
         # See available configuration at https://docs.livekit.io/agents/integrations/stt/assemblyai/
         stt="assemblyai",
-        
         # This starter template uses Rime via LiveKit Cloud
         # To change the voice, alter the voice name (currently "luna") after the colon.
         # See available voices at https://docs.rime.ai/api-reference/voices
@@ -95,7 +93,6 @@ async def entrypoint(ctx: JobContext):
         #     tts=rime.TTS(model="arcana", speaker="luna")
         # See available configuration at https://docs.livekit.io/agents/integrations/tts/rime/
         tts="rime/arcana:luna",
-        
         turn_detection=EnglishModel(),
         vad=ctx.proc.userdata["vad"],
         preemptive_generation=True,

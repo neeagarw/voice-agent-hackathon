@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "agent-starter-python"
+name = "voice-agent-hackathon"
 version = "1.0.0"
-description = "Simple voice AI assistant built with LiveKit Agents for Python"
+description = "Simple voice agent built with LiveKit, AssemblyAI, and Rime"
 requires-python = ">=3.9"
 
 dependencies = [
