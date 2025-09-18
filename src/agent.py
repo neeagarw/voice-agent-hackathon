@@ -85,7 +85,7 @@ async def entrypoint(ctx: JobContext):
         
         # This starter template uses Rime via LiveKit Cloud
         # To change the voice, alter the voice name (currently "luna") after the colon.
-        # See available voices at https://docs.livekit.io/agents/integrations/tts/rime/#voices
+        # See available voices at https://docs.rime.ai/api-reference/voices
         #
         # Or, to use your own Rime account:
         # 1. Install livekit-agents[rime]
