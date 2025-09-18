@@ -1,40 +1,25 @@
-<a href="https://livekit.io/">
-  <img src="./.github/assets/livekit-mark.png" alt="LiveKit logo" width="100" height="100">
-</a>
+# Voice Agent Hackathon Template
 
-# LiveKit Agents Starter - Python
-
-A complete starter project for building voice AI apps with [LiveKit Agents for Python](https://github.com/livekit/agents).
-
-The starter project includes:
-
-- A simple voice AI assistant based on the [Voice AI quickstart](https://docs.livekit.io/agents/start/voice-ai/)
-- Voice AI pipeline based on [OpenAI](https://docs.livekit.io/agents/integrations/llm/openai/), [Cartesia](https://docs.livekit.io/agents/integrations/tts/cartesia/), and [Deepgram](https://docs.livekit.io/agents/integrations/llm/deepgram/)
-  - Easily integrate your preferred [LLM](https://docs.livekit.io/agents/integrations/llm/), [STT](https://docs.livekit.io/agents/integrations/stt/), and [TTS](https://docs.livekit.io/agents/integrations/tts/) instead, or swap to a realtime model like the [OpenAI Realtime API](https://docs.livekit.io/agents/integrations/realtime/openai)
-- Eval suite based on the LiveKit Agents [testing & evaluation framework](https://docs.livekit.io/agents/build/testing/)
-- [LiveKit Turn Detector](https://docs.livekit.io/agents/build/turns/turn-detector/) for contextually-aware speaker detection, with multilingual support
-- [LiveKit Cloud enhanced noise cancellation](https://docs.livekit.io/home/cloud/noise-cancellation/)
-- Integrated [metrics and logging](https://docs.livekit.io/agents/build/metrics/)
+Welcome to the Voice Agent Hackathon! This template contains a ready-to-use voice agent built with [AssemblyAI](https://assemblyai.com) and [Rime](https://rime.ai). All you need to run it is a [LiveKit Cloud](https://cloud.livekit.io) project.
 
 This starter app is compatible with any [custom web/mobile frontend](https://docs.livekit.io/agents/start/frontend/) or [SIP-based telephony](https://docs.livekit.io/agents/start/telephony/).
 
-## Dev Setup
+## Setup
 
-Clone the repository and install dependencies to a virtual environment:
+Step 1: Copy this repository (Click the green "Use this template" button on GitHub)
+Step 2: Clone your new copy to your local machine
+Step 3: Install dependencies using uv
 
 ```console
-cd agent-starter-python
+cd voice-agent-hackathon
 uv sync
 ```
 
-Set up the environment by copying `.env.example` to `.env.local` and filling in the required values:
+Step 4: Set up the environment by copying `.env.example` to `.env.local` and filling in the required values from your [LiveKit Cloud](https://cloud.livekit.io) project
 
-- `LIVEKIT_URL`: Use [LiveKit Cloud](https://cloud.livekit.io/) or [run your own](https://docs.livekit.io/home/self-hosting/)
+- `LIVEKIT_URL`
 - `LIVEKIT_API_KEY`
 - `LIVEKIT_API_SECRET`
-- `OPENAI_API_KEY`: [Get a key](https://platform.openai.com/api-keys) or use your [preferred LLM provider](https://docs.livekit.io/agents/integrations/llm/)
-- `DEEPGRAM_API_KEY`: [Get a key](https://console.deepgram.com/) or use your [preferred STT provider](https://docs.livekit.io/agents/integrations/stt/)
-- `CARTESIA_API_KEY`: [Get a key](https://play.cartesia.ai/keys) or use your [preferred TTS provider](https://docs.livekit.io/agents/integrations/tts/)
 
 You can load the LiveKit environment automatically using the [LiveKit CLI](https://docs.livekit.io/home/cli/cli-setup):
 
@@ -56,19 +41,19 @@ Next, run this command to speak to your agent directly in your terminal:
 uv run python src/agent.py console
 ```
 
-To run the agent for use with a frontend or telephony, use the `dev` command:
+## Web playground
 
-```console
-uv run python src/agent.py dev
-```
+## Web frontend
 
-In production, use the `start` command:
+This agent is compatible with the [LiveKit Agents Playground](https://agents-playground.livekit.io). 
 
-```console
-uv run python src/agent.py start
-```
+To run the agent for the playground, use the `dev` subcomand:
 
-## Frontend & Telephony
+    ```shell
+    uv run agent.py dev
+    ```
+
+## Custom frontend & telephony
 
 Get started quickly with our pre-built frontend starter apps, or add telephony support:
 
@@ -92,20 +77,8 @@ This project includes a complete suite of evals, based on the LiveKit Agents [te
 uv run pytest
 ```
 
-## Using this template repo for your own project
-
-Once you've started your own project based on this repo, you should:
-
-1. **Check in your `uv.lock`**: This file is currently untracked for the template, but you should commit it to your repository for reproducible builds and proper configuration management. (The same applies to `livekit.toml`, if you run your agents in LiveKit Cloud)
-
-2. **Remove the git tracking test**: Delete the "Check files not tracked in git" step from `.github/workflows/tests.yml` since you'll now want this file to be tracked. These are just there for development purposes in the template repo itself.
-
-3. **Add your own repository secrets**: You must [add secrets](https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-what-your-workflow-does/using-secrets-in-github-actions) for `OPENAI_API_KEY` or your other LLM provider so that the tests can run in CI.
+To run the tests in a CI environment, you must also [add repository secrets](https://docs.github.com/en/actions/how-tos/writing-workflows/choosing-what-your-workflow-does/using-secrets-in-github-actions) for `LIVEKIT_URL`, `LIVEKIT_API_KEY`, and `LIVEKIT_API_SECRET`.
 
 ## Deploying to production
 
 This project is production-ready and includes a working `Dockerfile`. To deploy it to LiveKit Cloud or another environment, see the [deploying to production](https://docs.livekit.io/agents/ops/deployment/) guide.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.

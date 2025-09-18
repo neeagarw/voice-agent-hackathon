@@ -10,14 +10,12 @@ from livekit.agents import (
     JobProcess,
     MetricsCollectedEvent,
     RoomInputOptions,
-    RunContext,
     WorkerOptions,
     cli,
     metrics,
 )
-from livekit.agents.llm import function_tool
-from livekit.plugins import cartesia, deepgram, noise_cancellation, openai, silero
-from livekit.plugins.turn_detector.multilingual import MultilingualModel
+from livekit.plugins import noise_cancellation, silero
+from livekit.plugins.turn_detector.english import EnglishModel
 
 logger = logging.getLogger("agent")
 
@@ -33,21 +31,22 @@ class Assistant(Agent):
             You are curious, friendly, and have a sense of humor.""",
         )
 
-    # all functions annotated with @function_tool will be passed to the LLM when this
-    # agent is active
-    @function_tool
-    async def lookup_weather(self, context: RunContext, location: str):
-        """Use this tool to look up current weather information in the given location.
-
-        If the location is not supported by the weather service, the tool will indicate this. You must tell the user the location's weather is unavailable.
-
-        Args:
-            location: The location to look up weather information for (e.g. city name)
-        """
-
-        logger.info(f"Looking up weather for {location}")
-
-        return "sunny with a temperature of 70 degrees."
+    # To add tools, use the @function_tool decorator.
+    # Here's an example that adds a simple weather tool.
+    # You also have to add `from livekit.agents.llm import function_tool, RunContext` to the top of this file
+    # @function_tool
+    # async def lookup_weather(self, context: RunContext, location: str):
+    #     """Use this tool to look up current weather information in the given location.
+    #
+    #     If the location is not supported by the weather service, the tool will indicate this. You must tell the user the location's weather is unavailable.
+    #
+    #     Args:
+    #         location: The location to look up weather information for (e.g. city name)
+    #     """
+    #
+    #     logger.info(f"Looking up weather for {location}")
+    #
+    #     return "sunny with a temperature of 70 degrees."
 
 
 def prewarm(proc: JobProcess):
@@ -61,31 +60,46 @@ async def entrypoint(ctx: JobContext):
         "room": ctx.room.name,
     }
 
-    # Set up a voice AI pipeline using OpenAI, Cartesia, Deepgram, and the LiveKit turn detector
+    # Set up a voice AI pipeline using OpenAI, Rime, AssemblyAI, and the LiveKit turn detector
     session = AgentSession(
-        # A Large Language Model (LLM) is your agent's brain, processing user input and generating a response
-        # See all providers at https://docs.livekit.io/agents/integrations/llm/
-        llm=openai.LLM(model="gpt-4o-mini"),
-        # Speech-to-text (STT) is your agent's ears, turning the user's speech into text that the LLM can understand
-        # See all providers at https://docs.livekit.io/agents/integrations/stt/
-        stt=deepgram.STT(model="nova-3", language="multi"),
-        # Text-to-speech (TTS) is your agent's voice, turning the LLM's text into speech that the user can hear
-        # See all providers at https://docs.livekit.io/agents/integrations/tts/
-        tts=cartesia.TTS(voice="6f84f4b8-58a2-430c-8c79-688dad597532"),
-        # VAD and turn detection are used to determine when the user is speaking and when the agent should respond
-        # See more at https://docs.livekit.io/agents/build/turns
-        turn_detection=MultilingualModel(),
+        # This starter template uses GPT-4o-mini via LiveKit Cloud.
+        # For a list of available models, see https://github.com/livekit/agents/blob/main/livekit-agents/livekit/agents/inference/llm.py
+        # Or, for a wider range of models, see plugins at https://docs.livekit.io/agents/integrations/llm/
+        llm="azure/gpt-4o-mini",
+        
+        # This starter template uses AssemblyAI via LiveKit Cloud.
+        # To send extra parameters, use the following session setup instead of the version above:
+        # 1. add `from livekit.agents import inference` to the top of this file
+        # 2. Use the following session setup instead of the version above:
+        #     stt=inference.STT(model="assemblyai", extra_kwargs={ ... })
+        # See available configuration at https://github.com/livekit/agents/blob/main/livekit-agents/livekit/agents/inference/stt.py#L57
+        #
+        # Or to use your own AssemblyAI account:
+        # 1. Install livekit-agents[assemblyai]
+        # 2. Set ASSEMBLYAI_API_KEY in .env.local
+        # 3. Add `from livekit.plugins import assemblyai` to the top of this file
+        # 4. Use the following session setup instead of the version above
+        #     stt=assemblyai.STT()
+        # See available configuration at https://docs.livekit.io/agents/integrations/stt/assemblyai/
+        stt="assemblyai",
+        
+        # This starter template uses Rime via LiveKit Cloud
+        # To change the voice, alter the voice name (currently "luna") after the colon.
+        # See available voices at https://docs.livekit.io/agents/integrations/tts/rime/#voices
+        #
+        # Or, to use your own Rime account:
+        # 1. Install livekit-agents[rime]
+        # 2. Set RIME_API_KEY in .env.local
+        # 3. Add `from livekit.plugins import rime` to the top of this file
+        # 4. Use the following session setup instead of the version above
+        #     tts=rime.TTS(model="arcana", speaker="luna")
+        # See available configuration at https://docs.livekit.io/agents/integrations/tts/rime/
+        tts="rime/arcana:luna",
+        
+        turn_detection=EnglishModel(),
         vad=ctx.proc.userdata["vad"],
-        # allow the LLM to generate a response while waiting for the end of turn
-        # See more at https://docs.livekit.io/agents/build/audio/#preemptive-generation
         preemptive_generation=True,
     )
-
-    # To use a realtime model instead of a voice pipeline, use the following session setup instead:
-    # session = AgentSession(
-    #     # See all providers at https://docs.livekit.io/agents/integrations/realtime/
-    #     llm=openai.realtime.RealtimeModel(voice="marin")
-    # )
 
     # sometimes background noise could interrupt the agent session, these are considered false positive interruptions
     # when it's detected, you may resume the agent's speech
@@ -109,22 +123,12 @@ async def entrypoint(ctx: JobContext):
 
     ctx.add_shutdown_callback(log_usage)
 
-    # # Add a virtual avatar to the session, if desired
-    # # For other providers, see https://docs.livekit.io/agents/integrations/avatar/
-    # avatar = hedra.AvatarSession(
-    #   avatar_id="...",  # See https://docs.livekit.io/agents/integrations/avatar/hedra
-    # )
-    # # Start the avatar and wait for it to join
-    # await avatar.start(session, room=ctx.room)
-
     # Start the session, which initializes the voice pipeline and warms up the models
     await session.start(
         agent=Assistant(),
         room=ctx.room,
         room_input_options=RoomInputOptions(
-            # LiveKit Cloud enhanced noise cancellation
-            # - If self-hosting, omit this parameter
-            # - For telephony applications, use `BVCTelephony` for best results
+            # For telephony applications, use `BVCTelephony` for best results
             noise_cancellation=noise_cancellation.BVC(),
         ),
     )
