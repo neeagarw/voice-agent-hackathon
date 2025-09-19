@@ -6,9 +6,9 @@ This starter app is compatible with any [custom web/mobile frontend](https://doc
 
 ## Setup
 
-Step 1: Copy this repository (Click the green "Use this template" button on GitHub)
-Step 2: Clone your new copy to your local machine
-Step 3: Install dependencies using uv
+Step 1: Copy this repository (Click the green "Use this template" button on GitHub)  
+Step 2: Clone your new copy to your local machine  
+Step 3: Install dependencies using uv  
 
 ```console
 cd voice-agent-hackathon
@@ -48,7 +48,7 @@ This agent is compatible with the [LiveKit Agents Playground](https://agents-pla
 To run the agent for the playground, use the `dev` subcomand:
 
 ```shell
-uv run agent.py dev
+uv run src/agent.py dev
 ```
 
 ## Custom frontend & telephony
@@ -87,7 +87,7 @@ This project uses models from AssemblyAI and Rime, as well as GPT-4o-mini from A
 
 ### AssemblyAI customization
 
-To customize the AssemblyAI model, while still using LiveKit Cloud, you can use the following session setup instead of the version above:
+To customize the AssemblyAI model, while still using LiveKit Cloud, you can use the following session setup in your [agent code](https://github.com/livekit-examples/voice-agent-hackathon/blob/main/src/agent.py) instead of the version above:
 
 ```python
 from livekit.agents import inference
@@ -101,7 +101,7 @@ Refer to the [source code](https://github.com/livekit/agents/blob/main/livekit-a
 
 #### AssemblyAI plugin
 
-To use your own AssemblyAI account, or access additional features, use the AssemblyAI plugin:
+To use your own AssemblyAI account, or access additional AssemblyAI features, use the AssemblyAI plugin:
 
 ```shell
 uv add livekit-agents[assemblyai]
@@ -119,7 +119,7 @@ Refer to the [plugin documentation](https://docs.livekit.io/agents/integrations/
 
 ### Rime customization
 
-To use a different Rime voice, while still using LiveKit Cloud, just change the voice name after the colon:
+To use a different Rime voice, while still using LiveKit Cloud, just change the voice name after the colon in your [agent code](https://github.com/livekit-examples/voice-agent-hackathon/blob/main/src/agent.py):
 
 ```python
 session = AgentSession(
