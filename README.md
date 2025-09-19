@@ -8,7 +8,7 @@ This starter app is compatible with any [custom web/mobile frontend](https://doc
 
 Step 1: Copy this repository (Click the green "Use this template" button on GitHub)  
 Step 2: Clone your new copy to your local machine  
-Step 3: Install dependencies using uv  
+Step 3: Install dependencies using uv ([install uv here](https://docs.astral.sh/uv/getting-started/installation/) if needed)  
 
 ```console
 cd voice-agent-hackathon
