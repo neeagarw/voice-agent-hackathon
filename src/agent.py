@@ -133,6 +133,15 @@ async def entrypoint(ctx: JobContext):
     # Join the room and connect to the user
     await ctx.connect()
 
+    # Good luck and have fun!
+    await session.generate_reply(
+        instructions="""
+        The user has just finished getting their first voice agent up and running.
+        Welcome them to the Voice Agent Hackathon and wish them good luck!
+        """,
+        allow_interruptions=False,
+    )
+
 
 if __name__ == "__main__":
     cli.run_app(WorkerOptions(entrypoint_fnc=entrypoint, prewarm_fnc=prewarm))

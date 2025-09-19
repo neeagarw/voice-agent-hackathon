@@ -10,7 +10,7 @@ Step 1: Copy this repository (Click the green "Use this template" button on GitH
 Step 2: Clone your new copy to your local machine  
 Step 3: Install dependencies using uv ([install uv here](https://docs.astral.sh/uv/getting-started/installation/) if needed)  
 
-```console
+```shell
 cd voice-agent-hackathon
 uv sync
 ```
@@ -32,25 +32,25 @@ lk app env -w -d .env.local
 
 Before your first run, you must download certain models such as [Silero VAD](https://docs.livekit.io/agents/build/turns/vad/) and the [LiveKit turn detector](https://docs.livekit.io/agents/build/turns/turn-detector/):
 
-```console
+```shell
 uv run python src/agent.py download-files
 ```
 
-Next, run this command to speak to your agent directly in your terminal:
-
-```console
-uv run python src/agent.py console
-```
-
-## Web playground
-
-This agent is compatible with the [LiveKit Agents Playground](https://agents-playground.livekit.io). 
-
-To run the agent for the playground, use the `dev` subcomand:
+Next, run this command to start the agent:
 
 ```shell
-uv run src/agent.py dev
+uv run python src/agent.py dev
 ```
+
+Finally, open the [LiveKit Agents Playground](https://agents-playground.livekit.io/#cam=0&mic=1&screen=0&video=0&audio=1&chat=1&theme_color=cyan) to speak with your new agent!
+
+## Tips for managing background noise
+
+This hackathon may be a noisy place which can make it tricky to test your agent. Here are some tips to help you:
+
+1. Use headphones with a microphone and noise isolation features (such as Airpods) 
+2. Use the LiveKit [background voice cancellation](https://docs.livekit.io/home/cloud/noise-cancellation/) model (pre-installed in this template)
+3. Turn off your microphone in the [Agents Playground](https://agents-playground.livekit.io/#cam=0&mic=1&screen=0&video=0&audio=1&chat=1&theme_color=cyan) and use text input to test your agent instead.
 
 ## Custom frontend & telephony
 
@@ -72,7 +72,7 @@ For advanced customization, see the [complete frontend guide](https://docs.livek
 
 This project includes a complete suite of evals, based on the LiveKit Agents [testing & evaluation framework](https://docs.livekit.io/agents/build/testing/). To run them, use `pytest`.
 
-```console
+```shell
 uv run pytest
 ```
 
