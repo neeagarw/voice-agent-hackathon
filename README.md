@@ -24,6 +24,7 @@ Step 4: Set up the environment by copying `.env.example` to `.env.local` and fil
 You can load the LiveKit environment automatically using the [LiveKit CLI](https://docs.livekit.io/home/cli/cli-setup):
 
 ```bash
+lk cloud auth
 lk app env -w .env.local
 ```
 
