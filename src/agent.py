@@ -15,7 +15,7 @@ from livekit.agents import (
     metrics,
 )
 from livekit.plugins import noise_cancellation, silero
-from livekit.plugins.turn_detector.english import EnglishModel
+from livekit.plugins.turn_detector.multilingual import MultilingualModel
 
 logger = logging.getLogger("agent")
 
@@ -93,7 +93,7 @@ async def entrypoint(ctx: JobContext):
         #     tts=rime.TTS(model="arcana", speaker="luna")
         # See available configuration at https://docs.livekit.io/agents/integrations/tts/rime/
         tts="rime/arcana:luna",
-        turn_detection=EnglishModel(),
+        turn_detection=MultilingualModel(),
         vad=ctx.proc.userdata["vad"],
         preemptive_generation=True,
     )
