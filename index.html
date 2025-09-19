@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice Chat with AI Agent</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Voice Chat with AI Agent</h1>
+            <p>Click the button below and start talking!</p>
+        </header>
+
+        <main>
+            <!-- Status Display -->
+            <div id="status" class="status">
+                <div class="status-indicator" id="statusIndicator">🤖</div>
+                <div class="status-text" id="statusText">Ready to chat</div>
+            </div>
+
+            <!-- Voice Control Button -->
+            <div class="voice-controls">
+                <button id="voiceButton" class="voice-button" disabled>
+                    <span class="button-icon">🎤</span>
+                    <span class="button-text">Connecting...</span>
+                </button>
+            </div>
+
+            <!-- Conversation Display -->
+            <div class="conversation" id="conversation">
+                <div class="message-container">
+                    <div class="message agent-message">
+                        <div class="message-avatar">🤖</div>
+                        <div class="message-content">
+                            <div class="message-text">Connecting to your AI assistant...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button id="resetButton" class="control-button">
+                    🔄 Reset Conversation
+                </button>
+                <button id="muteButton" class="control-button">
+                    🔇 Mute Responses
+                </button>
+            </div>
+        </main>
+
+        <footer>
+            <div class="info">
+                <p>💡 <strong>Tips:</strong></p>
+                <ul>
+                    <li>Allow microphone access when prompted</li>
+                    <li>Speak clearly and wait for the response</li>
+                    <li>The agent supports both English and Spanish</li>
+                    <li>Click "Reset" to start a new conversation</li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Audio element for playing responses -->
+    <audio id="audioPlayer" preload="auto"></audio>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
